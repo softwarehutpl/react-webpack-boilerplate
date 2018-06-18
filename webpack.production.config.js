@@ -12,7 +12,7 @@ const config = {
     './assets/scss/main.scss',
   ],
 
-  context: resolve(__dirname, 'app'),
+  context: resolve(__dirname, 'src'),
 
   output: {
     filename: 'bundle.js',
@@ -23,7 +23,7 @@ const config = {
   plugins: [
     new webpack.optimize.ModuleConcatenationPlugin(),
     new HtmlWebpackPlugin({
-      template: `${__dirname}/app/index.html`,
+      template: `${__dirname}/src/index.html`,
       filename: 'index.html',
       inject: 'body',
     }),
@@ -57,7 +57,13 @@ const config = {
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
+              },
+            },
             { loader: 'sass-loader', query: { sourceMap: false } },
           ],
           publicPath: '../'

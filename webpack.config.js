@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   devtool: 'cheap-module-eval-source-map',
@@ -22,11 +23,11 @@ const config = {
     publicPath: '',
   },
 
-  context: resolve(__dirname, 'app'),
+  context: resolve(__dirname, 'src'),
 
   devServer: {
     hot: true,
-    contentBase: resolve(__dirname, 'build'),
+    contentBase: resolve(__dirname, 'src'),
     historyApiFallback: true,
     publicPath: '/'
   },
@@ -56,7 +57,13 @@ const config = {
         use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
-            'css-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[path][name]__[local]--[hash:base64:5]'
+              },
+            },
             {
               loader: 'sass-loader',
               query: {
@@ -142,6 +149,11 @@ const config = {
           cache: false,
         }
       },
+    }),
+    new HtmlWebpackPlugin({
+      template: `${__dirname}/src/index.html`,
+      filename: 'index.html',
+      inject: 'body',
     }),
     new webpack.optimize.ModuleConcatenationPlugin(),
     new ExtractTextPlugin({ filename: './styles/style.css', disable: false, allChunks: true }),
