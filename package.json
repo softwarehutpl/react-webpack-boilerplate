@@ -1,5 +1,5 @@
 {
-  "name": "react-webpack-boilerplate",
+  "name": "sh-react-webpack-boilerplate",
   "version": "2.1.0",
   "description": "Minimalistic ES6 React boilerplate",
   "main": "index.js",
@@ -31,7 +31,8 @@
       "**/?(*.)(spec|test).js?(x)"
     ],
     "transform": {
-      "\\.js$": "babel-jest"
+      "\\.js$": "babel-jest",
+      "\\.jsx$": "babel-jest"
     }
   },
   "dependencies": {
